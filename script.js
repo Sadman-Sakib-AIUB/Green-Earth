@@ -108,7 +108,7 @@ const displayPlantDetails = (detail) => {
                 ✕
               </button>
             </form>
-            <h3 class="text-lg font-bold text-center">Mango tree</h3>
+            <h3 class="text-lg font-bold text-center">${detail.name}</h3>
             <img class=" aspect-3/2 object-cover " src="${detail.image}" alt="">
             <span class=" text-sm font-semibold text-gray-500">Category:</span><p class=" inline-block m-1 text-sm text-gray-500" > ${detail.category}</p>
 
