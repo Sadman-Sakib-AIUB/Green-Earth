@@ -72,4 +72,4 @@ const displayCardData = (plants) => {
 }
 
 loadCategories()
-loadCardData();
+// loadCardData();
