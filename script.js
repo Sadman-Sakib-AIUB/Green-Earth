@@ -1,9 +1,30 @@
 const loadCategories = () => {
-    url = 'https://openapi.programming-hero.com/api/categories';
+   const url = 'https://openapi.programming-hero.com/api/categories';
     fetch (url)
     .then(res=> res.json())
     .then(data => displayCategories(data.categories))
 }
+loadCategories()
+
+
+const loadCardData = () => {
+    url = 'https://openapi.programming-hero.com/api/plants'
+    fetch(url)
+    .then(res => res.json())
+    .then(data => displayCardData(data.plants))
+}
+loadCardData();
+
+const loadCategoryCardData = (id) => {
+
+    const url = `https://openapi.programming-hero.com/api/category/${id}`
+    fetch(url)
+    .then(res => res.json())
+    .then (data => displayCardData(data.plants))
+    
+}
+loadCategoryCardData();
+
 
 const displayCategories = (categories) => {
     const categoryContainer = document.getElementById('category-container')
@@ -18,19 +39,18 @@ const displayCategories = (categories) => {
     categories.forEach(category => {
 
         const btnCategory = document.createElement('div');
-        btnCategory.innerHTML=`<button class="w-full hover:bg-[#15803D] hover:text-white p-1 text-sm rounded-sm text-left ">${category.category_name}</button>`
+        btnCategory.innerHTML=`<button id="category-no-${category.id}"onclick="loadCategoryCardData(${category.id})" class="w-full hover:bg-[#15803D] hover:text-white p-1 text-sm rounded-sm text-left ">${category.category_name}</button>`
 
+        
         categoryContainer.append(btnCategory);
+        // console.log(btnCategory);
     })
 }
 
 
-const loadCardData = () => {
-    url = 'https://openapi.programming-hero.com/api/plants'
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displayCardData(data.plants))
-}
+
+
+
 
 const displayCardData = (plants) => {
     const cardContainer = document.getElementById('card-container')
@@ -71,5 +91,8 @@ const displayCardData = (plants) => {
 
 }
 
-loadCategories()
-// loadCardData();
+
+
+
+
+// loadCategoryCardData();
