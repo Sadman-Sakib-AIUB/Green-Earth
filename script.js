@@ -31,7 +31,7 @@ const displayCategories = (categories) => {
     categoryContainer.innerText='';
 
      categoryContainer.innerHTML = `
-        <button class="w-full hover:bg-[#15803D] hover:text-white p-1 text-sm rounded-sm text-left">
+        <button onclick="loadCardData()" class="w-full hover:bg-[#15803D] hover:text-white p-1 text-sm rounded-sm text-left">
             All Trees
         </button>
     `;
@@ -49,9 +49,6 @@ const displayCategories = (categories) => {
 
 
 
-
-
-
 const displayCardData = (plants) => {
     const cardContainer = document.getElementById('card-container')
     cardContainer.innerText='';
@@ -61,17 +58,17 @@ const displayCardData = (plants) => {
         plantCard.innerHTML = `
         <div class="card bg-base-100 w-52 shadow-sm h-[400px]">
                 <figure class="p-2">
-                    <img
+                    <img onclick="loadPlantDetails(${plant.id})"
                     class=" rounded-md aspect-3/2 object-cover "
                     src="${plant.image}"
                     alt="tree" />
                 </figure>
                 <div class="card-body">
-                    <h2 class="text-sm font-semibold mt-[-20px]">${plant.name}</h2>
-                    <p class=" text-xs text-gray-400">${plant.description}</p>
+                    <h2 onclick="loadPlantDetails(${plant.id})" class="cursor-default text-sm font-semibold mt-[-20px]">${plant.name}</h2>
+                    <p onclick="loadPlantDetails(${plant.id})" class="cursor-default text-xs text-gray-400">${plant.description}</p>
 
                     <div class="flex items-center justify-between mb-2">
-                    <div class=" px-3 py-1 gap-2 bg-[#DCFCE7] rounded-full text-xs text-[#15803D] ">${plant.category}</div>
+                    <div onclick="loadPlantDetails(${plant.id})" class=" cursor-default px-3 py-1 gap-2 bg-[#DCFCE7] rounded-full text-xs text-[#15803D] ">${plant.category}</div>
 
                     <div class=" font-semibold text-sm"><span>৳</span>${plant.price}</div>
                     
@@ -92,7 +89,34 @@ const displayCardData = (plants) => {
 }
 
 
+const loadPlantDetails = (id) => {
+    const url =`https://openapi.programming-hero.com/api/plant/${id}`
+    fetch(url)
+    .then(res=> res.json())
+    .then(data =>displayPlantDetails(data.plants) )
+}
 
+const displayPlantDetails = (detail) => {
+    const plantDetailsContainer = document.getElementById('plant-details-container')
+    plantDetailsContainer.innerHTML=`
+    <dialog id="plant_modal" class="modal">
+          <div class="modal-box">
+            <form method="dialog">
+              <button
+                class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </button>
+            </form>
+            <h3 class="text-lg font-bold text-center">Mango tree</h3>
+            <img class=" aspect-3/2 object-cover " src="${detail.image}" alt="">
+            <span class=" text-sm font-semibold text-gray-500">Category:</span><p class=" inline-block m-1 text-sm text-gray-500" > ${detail.category}</p>
 
+            <p class="text-sm font-semibold text-gray-500">Price: <span>$</span>${detail.price}</p>
+            <span class="py-4 text-sm text-gray-500 font-semibold">Description:</span><span class="text-sm text-gray-500"> ${detail.description}</span>
+          </div>
+        </dialog>
+    `
 
-// loadCategoryCardData();
+    document.getElementById('plant_modal').showModal();
+}
